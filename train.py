@@ -108,6 +108,8 @@ def train_model(model, criterion, optimizer, num_epochs=3):
     fig.savefig(path_save_model + '/result.png', dpi=500)
     return model
 
+if not os.path.exists(path_save_model):
+    os.mkdir(path_save_model)
 temp = 0
 while os.path.exists(path_save_model + '/exp%d'%(temp)):
     temp = temp+1
