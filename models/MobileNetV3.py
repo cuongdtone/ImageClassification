@@ -5,9 +5,10 @@ from torch import nn, Tensor
 from torch.nn import functional as F
 from typing import Any, Callable, Dict, List, Optional, Sequence
 
-from torchvision.models.utils import load_state_dict_from_url
-from torchvision.models.mobilenetv2 import _make_divisible, ConvBNActivation
-
+try:
+    from torch.hub import load_state_dict_from_url
+except ImportError:
+    from torch.utils.model_zoo import load_url as load_state_dict_from_url
 
 __all__ = ["MobileNetV3", "mobilenet_v3_large", "mobilenet_v3_small"]
 
@@ -15,6 +16,46 @@ model_urls = {
     "mobilenet_v3_large": "https://download.pytorch.org/models/mobilenet_v3_large-8738ca79.pth",
     "mobilenet_v3_small": "https://download.pytorch.org/models/mobilenet_v3_small-047dcff4.pth",
 }
+
+def _make_divisible(v: float, divisor: int, min_value: Optional[int] = None) -> int:
+    """
+    This function is taken from the original tf repo.
+    It ensures that all layers have a channel number that is divisible by 8
+    It can be seen here:
+    https://github.com/tensorflow/models/blob/master/research/slim/nets/mobilenet/mobilenet.py
+    """
+    if min_value is None:
+        min_value = divisor
+    new_v = max(min_value, int(v + divisor / 2) // divisor * divisor)
+    # Make sure that round down does not go down by more than 10%.
+    if new_v < 0.9 * v:
+        new_v += divisor
+    return new_v
+
+class ConvBNActivation(nn.Sequential):
+    def __init__(
+        self,
+        in_planes: int,
+        out_planes: int,
+        kernel_size: int = 3,
+        stride: int = 1,
+        groups: int = 1,
+        norm_layer: Optional[Callable[..., nn.Module]] = None,
+        activation_layer: Optional[Callable[..., nn.Module]] = None,
+        dilation: int = 1,
+    ) -> None:
+        padding = (kernel_size - 1) // 2 * dilation
+        if norm_layer is None:
+            norm_layer = nn.BatchNorm2d
+        if activation_layer is None:
+            activation_layer = nn.ReLU6
+        super().__init__(
+            nn.Conv2d(in_planes, out_planes, kernel_size, stride, padding, dilation=dilation, groups=groups,
+                      bias=False),
+            norm_layer(out_planes),
+            activation_layer(inplace=True)
+        )
+        self.out_channels = out_planes
 
 class SqueezeExcitation(nn.Module):
     # Implemented as described at Figure 4 of the MobileNetV3 paper
