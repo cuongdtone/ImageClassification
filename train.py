@@ -168,8 +168,8 @@ dataloaders = {
 if __name__=='__main__':
     model_trained = train_model(model, criterion, optimizer, num_epochs=epochs)
 
-    model = Model(path_save_model)
-    evaluate_cm(model, input_path+ '/test', save_cm=path_save_model, normalize=False, show=False)
+    #model = Model(path_save_model)
+    #evaluate_cm(model, input_path+ '/test', save_cm=path_save_model, normalize=False, show=False)
 
     torch.save(model_trained.state_dict(), path_save_model + '/last.h5')
     print('Saved last model at ', path_save_model, "/last.h5")
