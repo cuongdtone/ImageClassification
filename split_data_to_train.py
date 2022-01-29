@@ -25,7 +25,7 @@ def train_test_split(dataset, splitted_dataset, train_ratio=0.8, val_ratio=0.1, 
             print("Exit !")
             return 0
 
-    for i in ['', '/train', 'val', '/test']:
+    for i in ['', '/train', '/val', '/test']:
         os.mkdir(splitted_dataset + i)
 
     list_dir_class = glob(dataset + '/*')
