@@ -4,8 +4,14 @@ from glob import glob
 import random
 import argparse
 
-dataset = 'dataset_example/'
-splitted_dataset = 'dataset/'
+parser = argparse.ArgumentParser()
+parser.add_argument('--input', help='path dataset')
+parser.add_argument('--output')
+args = vars(parser.parse_args())
+
+dataset = args['input']
+splitted_dataset = ['output']
+
 train_ratio = 0.8
 val_ratio = 0.1
 test_ratio = 0.1
