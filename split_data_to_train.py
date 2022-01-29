@@ -10,7 +10,7 @@ parser.add_argument('--output')
 args = vars(parser.parse_args())
 
 dataset = args['input']
-splitted_dataset = ['output']
+splitted_dataset = args['output']
 
 train_ratio = 0.8
 val_ratio = 0.1
