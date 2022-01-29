@@ -57,7 +57,7 @@ class Model:
         _, index = torch.max(out, 1)
         percentage = (nn.functional.softmax(out, dim=1)[0] * 100).tolist()
         #print(index)
-        return self.class_name[index], float(percentage[0])
+        return self.class_name[index], float(percentage[:])
 
 if __name__ == "__main__":
     model = Model("/home/cuong/Desktop/bianry_classification/runs/exp0")
