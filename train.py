@@ -13,7 +13,7 @@ from utils.load_model import Model
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-# Import custom deep learning model
+
 from models.MobileNetV3 import mobilenet_v3_small
 model = mobilenet_v3_small(pretrained=True, num_classes=2).to(device)
 
