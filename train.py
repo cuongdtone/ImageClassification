@@ -87,7 +87,7 @@ def train_model(model, criterion, optimizer, num_epochs=3):
             best_loss_val = running_loss
         if best_loss_val>=running_loss:
             best_loss_val = running_loss
-            torch.save(model.state_dict(), path_save_model + '/best.h5')
+            torch.save(model, path_save_model + '/best.pt')
             print("    Saved best model at epoch ", epoch+1)
         print('-' * 10)
     fig = plt.figure()
@@ -116,8 +116,6 @@ while os.path.exists(path_save_model + '/exp%d'%(temp)):
 path_save_model = path_save_model + '/exp%d'%(temp)
 os.mkdir(path_save_model)
 
-with open(path_save_model + '/model.pickle', 'wb') as file:
-    pickle.dump(model, file)
 
 with open(path_save_model + '/parameter.txt', 'w') as file:
     temp = "inputsize = %d"%(input_size)
@@ -137,7 +135,7 @@ image_datasets = {
         normalize,
     ])),
     'validation':
-    datasets.ImageFolder(input_path + '/val',
+    datasets.ImageFolder(input_path + '/valid',
     transforms.Compose([
         transforms.Resize(int(input_size/0.875)),
         transforms.CenterCrop(input_size),
@@ -173,6 +171,6 @@ if __name__=='__main__':
     #model = Model(path_save_model)
     #evaluate_cm(model, input_path+ '/test', save_cm=path_save_model, normalize=False, show=False)
 
-    torch.save(model_trained.state_dict(), path_save_model + '/last.h5')
+    torch.save(model_trained, path_save_model + '/last.h5')
     print('Saved last model at ', path_save_model, "/last.h5")
     print("Complete !")
