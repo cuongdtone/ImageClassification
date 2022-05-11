@@ -33,7 +33,7 @@ def train_test_split(dataset, splitted_dataset, train_ratio=0.8, val_ratio=0.1, 
     for i in list_dir_class:
         temp = i.split('/')[-1]
         list_class.append(temp)
-        for j in ['/train', 'val', '/test']:
+        for j in ['/train', '/val', '/test']:
             os.mkdir(splitted_dataset + j + '/' + temp)
 
     for i in list_class:
