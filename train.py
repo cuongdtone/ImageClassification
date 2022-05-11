@@ -54,11 +54,7 @@ def train_model(model, criterion, optimizer, num_epochs=3):
                 model.eval()
             running_loss = 0.0
             running_corrects = 0
-            print("Memory: ")
             for inputs, labels in dataloaders[phase]:
-                total_memory, used_memory_before, free_memory = map(int, os.popen('free -t -m').readlines()[-1].split()[1:])
-                print ("\033[A                             \033[A")
-                print("    Memory: %0.2f GB / %0.2f GB"%(used_memory_before/1024, total_memory/1024))
                 inputs = inputs.to(device)
                 labels = labels.to(device)
 
@@ -131,6 +127,7 @@ image_datasets = {
     'train':
     datasets.ImageFolder(input_path + '/train',
     transforms.Compose([
+        transforms.Grayscale(),
         transforms.RandomResizedCrop(input_size),
         transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
