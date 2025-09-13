@@ -1,0 +1,3 @@
+runs/*
+evaluation_results/*
+**/__pycache__/*

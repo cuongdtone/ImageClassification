@@ -1,6 +1,0 @@
-matplotlib>=3.5.1
-numpy>=1.21.2
-scikit-learn>=1.0.1
-pillow>=8.4.0
-opencv-python-headless
-torch
