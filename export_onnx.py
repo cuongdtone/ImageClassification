@@ -342,7 +342,7 @@ if __name__ == '__main__':
                        help='Path to trained PyTorch model (.pth)')
     parser.add_argument('--output_path', type=str, default='model.onnx',
                        help='Output path for ONNX model')
-    parser.add_argument('--input_size', type=int, default=224,
+    parser.add_argument('--input_size', type=int, default=112,
                        help='Input image size')
     parser.add_argument('--batch_size', type=int, default=1,
                        help='Batch size for export')
@@ -365,4 +365,3 @@ if __name__ == '__main__':
     
     args = parser.parse_args()
     main(args)
-    
